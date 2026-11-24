@@ -1,0 +1,489 @@
+
+<?php
+
+// ==========================================
+// CLASS INDUK: PERPUSTAKAAN
+// ==========================================
+class Perpustakaan {
+    protected $judul;
+    protected $penulis;
+    protected $tahun;
+    protected $stok;
+
+    public function __construct($judul, $penulis, $tahun, $stok) {
+        $this->judul = $judul;
+        $this->penulis = $penulis;
+        $this->tahun = $tahun;
+        $this->stok = $stok;
+    }
+
+    public function getJudul() {
+        return $this->judul;
+    }
+
+    public function getPenulis() {
+        return $this->penulis;
+    }
+
+    public function getTahun() {
+        return $this->tahun;
+    }
+
+    public function getStok() {
+        return $this->stok;
+    }
+}
+
+// ==========================================
+// CLASS ANAK 1: BUKU FIKSI
+// ==========================================
+class BukuFiksi extends Perpustakaan {
+    private $genre;
+
+    public function __construct($judul, $penulis, $tahun, $stok, $genre) {
+        parent::__construct($judul, $penulis, $tahun, $stok);
+        $this->genre = $genre;
+    }
+
+    public function getGenre() {
+        return $this->genre;
+    }
+}
+
+// ==========================================
+// CLASS ANAK 2: BUKU NONFIKSI
+// ==========================================
+class BukuNonFiksi extends Perpustakaan {
+    private $kategori;
+
+    public function __construct($judul, $penulis, $tahun, $stok, $kategori) {
+        parent::__construct($judul, $penulis, $tahun, $stok);
+        $this->kategori = $kategori;
+    }
+
+    public function getKategori() {
+        return $this->kategori;
+    }
+}
+
+// ==========================================
+// MEMBUAT OBJECT BUKU FIKSI
+// ==========================================
+$buku1 = new BukuFiksi(
+    "Laskar Pelangi",
+    "Andrea Hirata",
+    2005,
+    5,
+    "Novel"
+);
+
+$buku2 = new BukuFiksi(
+    "Bumi",
+    "Tere Liye",
+    2014,
+    3,
+    "Fantasi"
+);
+
+$buku3 = new BukuFiksi(
+    "Dilan 1990",
+    "Pidi Baiq",
+    2014,
+    4,
+    "Romansa"
+);
+
+// ==========================================
+// MEMBUAT OBJECT BUKU NONFIKSI
+// ==========================================
+$buku4 = new BukuNonFiksi(
+    "Atomic Habits",
+    "James Clear",
+    2018,
+    6,
+    "Pengembangan Diri"
+);
+
+$buku5 = new BukuNonFiksi(
+    "Filosofi Teras",
+    "Henry Manampiring",
+    2018,
+    4,
+    "Filsafat"
+);
+
+$buku6 = new BukuNonFiksi(
+    "Sapiens",
+    "Yuval Noah Harari",
+    2011,
+    2,
+    "Sejarah"
+);
+
+// Mengelompokkan data buku
+$daftarFiksi = [$buku1, $buku2, $buku3];
+$daftarNonFiksi = [$buku4, $buku5, $buku6];
+
+$totalBuku = count($daftarFiksi) + count($daftarNonFiksi);
+
+$totalStok = 0;
+
+foreach (array_merge($daftarFiksi, $daftarNonFiksi) as $buku) {
+    $totalStok += $buku->getStok();
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Digital Library</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: #f5f7f2;
+    color: #1f2937;
+}
+
+.navbar {
+    background: #123524;
+    color: white;
+    padding: 20px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #a3e635;
+}
+
+.navbar p {
+    font-size: 14px;
+    color: #d1fae5;
+}
+
+.hero {
+    background: linear-gradient(120deg, #123524, #276749);
+    color: white;
+    padding: 65px 8%;
+}
+
+.hero h1 {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    color: #d1fae5;
+    line-height: 1.8;
+    max-width: 600px;
+}
+
+.container {
+    max-width: 1150px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background: white;
+    padding: 23px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px #00000008;
+}
+
+.stat-card p {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.stat-card h2 {
+    color: #166534;
+    font-size: 27px;
+}
+
+.section-title {
+    margin-bottom: 23px;
+}
+
+.section-title h2 {
+    font-size: 26px;
+    margin-bottom: 7px;
+}
+
+.section-title p {
+    color: #64748b;
+}
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 45px;
+}
+
+.book-card {
+    background: white;
+    padding: 23px;
+    border-radius: 17px;
+    box-shadow: 0 5px 20px #00000008;
+    transition: 0.3s;
+    border: 1px solid #e5e7eb;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px #00000012;
+}
+
+.book-icon {
+    width: 55px;
+    height: 65px;
+    background: #dcfce7;
+    color: #166534;
+    border-radius: 8px 12px 12px 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    margin-bottom: 18px;
+}
+
+.category {
+    color: #15803d;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.book-card h3 {
+    font-size: 19px;
+    margin: 10px 0;
+}
+
+.detail {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 2;
+}
+
+.stock {
+    margin-top: 15px;
+    padding: 9px 12px;
+    background: #f0fdf4;
+    color: #166534;
+    border-radius: 8px;
+    font-size: 13px;
+    display: inline-block;
+}
+
+.info-box {
+    background: #123524;
+    color: white;
+    padding: 30px;
+    border-radius: 18px;
+    margin-bottom: 40px;
+}
+
+.info-box h2 {
+    margin-bottom: 12px;
+}
+
+.info-box p {
+    color: #d1fae5;
+    line-height: 1.8;
+}
+
+.footer {
+    background: #123524;
+    color: #d1fae5;
+    padding: 25px;
+    text-align: center;
+}
+
+@media(max-width: 750px) {
+    .book-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 500px) {
+    .book-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero h1 {
+        font-size: 29px;
+    }
+
+    .navbar p {
+        display: none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="logo">DIGITAL<span>LIBRARY.</span></div>
+    <p>Knowledge For Everyone</p>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+    <h1>Welcome to Digital Library</h1>
+
+    <p>
+        Temukan berbagai koleksi buku menarik mulai dari
+        novel, fantasi, sejarah hingga pengembangan diri.
+        Mari tingkatkan pengetahuan melalui membaca.
+    </p>
+</div>
+
+<div class="container">
+
+    <!-- STATISTIK -->
+    <div class="stats">
+
+        <div class="stat-card">
+            <p>Total Koleksi Judul</p>
+            <h2><?= $totalBuku; ?></h2>
+        </div>
+
+        <div class="stat-card">
+            <p>Koleksi Buku Fiksi</p>
+            <h2><?= count($daftarFiksi); ?></h2>
+        </div>
+
+        <div class="stat-card">
+            <p>Total Stok Buku</p>
+            <h2><?= $totalStok; ?></h2>
+        </div>
+
+    </div>
+
+    <!-- BUKU FIKSI -->
+    <div class="section-title">
+        <h2>📚 Koleksi Buku Fiksi</h2>
+        <p>Berbagai cerita dan imajinasi menarik.</p>
+    </div>
+
+    <div class="book-grid">
+
+        <?php foreach ($daftarFiksi as $buku): ?>
+
+        <div class="book-card">
+
+            <div class="book-icon">📖</div>
+
+            <span class="category">Buku Fiksi</span>
+
+            <h3><?= htmlspecialchars($buku->getJudul()); ?></h3>
+
+            <div class="detail">
+                Penulis: <?= htmlspecialchars($buku->getPenulis()); ?>
+                <br>
+                Tahun: <?= $buku->getTahun(); ?>
+                <br>
+                Genre: <?= htmlspecialchars($buku->getGenre()); ?>
+            </div>
+
+            <div class="stock">
+                Stok: <?= $buku->getStok(); ?> Buku
+            </div>
+
+        </div>
+
+        <?php endforeach; ?>
+
+    </div>
+
+    <!-- BUKU NONFIKSI -->
+    <div class="section-title">
+        <h2>📘 Koleksi Buku Nonfiksi</h2>
+        <p>Buku pengetahuan, sejarah, dan pengembangan diri.</p>
+    </div>
+
+    <div class="book-grid">
+
+        <?php foreach ($daftarNonFiksi as $buku): ?>
+
+        <div class="book-card">
+
+            <div class="book-icon">📕</div>
+
+            <span class="category">Buku Nonfiksi</span>
+
+            <h3><?= htmlspecialchars($buku->getJudul()); ?></h3>
+
+            <div class="detail">
+                Penulis: <?= htmlspecialchars($buku->getPenulis()); ?>
+                <br>
+                Tahun: <?= $buku->getTahun(); ?>
+                <br>
+                Kategori: <?= htmlspecialchars($buku->getKategori()); ?>
+            </div>
+
+            <div class="stock">
+                Stok: <?= $buku->getStok(); ?> Buku
+            </div>
+
+        </div>
+
+        <?php endforeach; ?>
+
+    </div>
+
+    <!-- INFORMASI -->
+    <div class="info-box">
+        <h2>Tentang Digital Library</h2>
+
+        <p>
+            Website ini dibuat menggunakan bahasa pemrograman PHP
+            dengan konsep Object Oriented Programming (OOP).
+            Class Perpustakaan merupakan class induk, sedangkan
+            BukuFiksi dan BukuNonFiksi merupakan class anak yang
+            mewarisi properti dan method dari class induk.
+        </p>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <p>© 2026 Digital Library | PHP OOP Inheritance</p>
+    <p>Knowledge For Everyone</p>
+</div>
+
+</body>
+</html>
